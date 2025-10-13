@@ -34,9 +34,20 @@ def inserir_fime(titulo,genero,ano,avaliacao):
         finally:
             cursor.close()
             conexao.close()
-            inserir_fime("avatar","acao",2009,10,0)
-            
 
-
-        
-            
+def listar_filmes():
+    conexao,cursor =conectar()
+    if conexao:
+        try:
+            cursor.execute(
+             "SELECT * FROM filmes ORDER BY id"
+            )
+            return cursor.fetchall()
+        except Exception as  erro:
+            print(f'erro ao tentar listar filmes{erro}')
+        finally:
+            cursor.close()
+            conexao.close()
+filmes = listar_filmes()
+for linha in filmes:
+    print(linha[1])
