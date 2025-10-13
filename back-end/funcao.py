@@ -19,21 +19,22 @@ def criar_tabela():
             conexao.close()
 criar_tabela()
 
-def inserir_fime(titulo,genero,ano,avaliacao):
+def inserir_fimes(titulo,genero,ano,avaliacao):
     conexao,cursor =conectar()
     if conexao:
         try:
             cursor.execute(
-            "INSERT INTO filmes (titulo genero, ano, avaliacao)VALUES(%s,%s,%s,%s)",
+            "INSERT INTO filmes (titulo, genero, ano, avaliacao)VALUES(%s,%s,%s,%s)",
             (titulo,genero,ano,avaliacao)
             )
 
             conexao.commit()
         except Exception as  erro:
-            print(f'erro ao inserir filmes')
+            print(f'erro ao inserir filmes{erro}')
         finally:
             cursor.close()
             conexao.close()
+inserir_fimes("avatar","açao", 2009 ,10)
 
 def listar_filmes():
     conexao,cursor =conectar()
@@ -48,6 +49,35 @@ def listar_filmes():
         finally:
             cursor.close()
             conexao.close()
-filmes = listar_filmes()
-for linha in filmes:
-    print(linha[1])
+ 
+def atualiza_filme(id_filme,nova_avaliacao):
+    conexao, cursor = conectar()
+    if conexao:
+        try:
+            cursor.execute(
+                "UPDATE filmes SET avaliacao = %s WHERE id = %s",
+                (nova_avaliacao, id_filme)
+            )
+            conexao.commit()
+        except Exception as  erro:
+            print(f'erro ao tentar atualizar o filmes{erro}')
+        finally:
+            cursor.close()
+            conexao.close()
+            
+def deletar_filme(id_film):
+    conexao, cursor = conectar()
+    if conexao:
+        try:
+            cursor.execute(
+                "DELETAR FROM filmes  WHERE id = %s",(id_filme,)
+            )
+            conexao.commit()
+        except Exception as  erro:
+            print(f'erro ao tentar deletar o filmes{erro}')
+        finally:
+            cursor.close()
+            conexao.close()
+deletar_filme(1)
+            
+ 
